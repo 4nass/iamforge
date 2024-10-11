@@ -21,3 +21,29 @@ You can install these libraries via `pip`:
 
 ```bash
 pip install pandas openpyxl
+```
+
+## Usage
+### Command-Line Arguments
+
+You can specify the number of identities to generate, the input file, and the output format (CSV or Excel) through command-line arguments.
+
+```bash
+python identity_generator.py <number_of_identities> [--names-file NAMES_FILE] [--surnames-file NAMES_FILE] [--output-file OUTPUT_FILE] [--output-format {csv,excel}]
+```
+
+### Command-Line Arguments
+
+To generate 100 identities and save them as a CSV file:
+
+```bash
+python identity_generator.py 100 --names-file names.txt --surnames-file surnames.txt --output-file output/identities.csv --output-format csv
+```
+
+### Arguments
+
+- number_of_identities: The number of identities to generate (required).
+- --names-file: Path to the file containing the list of names (default is names.txt).
+- --surnames-file: Path to the file containing the list of surnames (default is surnames.txt).
+- --output-file: Path to save the output file (default is output/identities.csv).
+- --output-format: Output format, either csv or excel (default is csv).
