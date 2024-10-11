@@ -9,6 +9,23 @@ fake = Faker(['fr_FR'])
 def load_names(file_path):
     with open(file_path, 'r') as file:
         return [line.strip() for line in file.readlines()]
+    
+def generate_address():
+    address = {
+        'type': random.choice(['work', 'home']),  # Randomly choose between 'work' or 'home'
+        'streetNumber': fake.building_number(),  # Building number
+        'streetType': random.choice(['boulevard', 'avenue', 'rue', 'place', 'chemin']),  # Street type (avenue, boulevard, etc.)
+        'streetName': fake.street_name().split(' ', 1)[1],  # Street name
+        'region': fake.region(),  # Region in France
+        'locality': fake.city(),  # City
+        'complementStreetNumber': random.choice(['bis', 'ter', '']) if random.random() > 0.7 else '',  # 30% chance of having a complement street number
+        'complementLocation': '',  # Could be expanded, left empty for now
+        'complementIdentification': '',  # Could be expanded, left empty for now
+        'complementAddress': '',  # Additional address info (e.g., Apt #)
+        'country': 'France',  # Static value
+        'postalCode': fake.postcode()  # French postal code
+    }
+    return address
 
 def generate_identity(names=None, surnames=None, use_faker=False):
     if use_faker:
