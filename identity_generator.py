@@ -12,18 +12,18 @@ def load_names(file_path):
     
 def generate_address():
     address = {
-        'type': random.choice(['work', 'home']),  # Randomly choose between 'work' or 'home'
-        'streetNumber': fake.building_number(),  # Building number
-        'streetType': random.choice(['boulevard', 'avenue', 'rue', 'place', 'chemin']),  # Street type (avenue, boulevard, etc.)
-        'streetName': fake.street_name().split(' ', 1)[1],  # Street name
-        'region': fake.region(),  # Region in France
-        'locality': fake.city(),  # City
-        'complementStreetNumber': random.choice(['bis', 'ter', '']) if random.random() > 0.7 else '',  # 30% chance of having a complement street number
-        'complementLocation': '',  # Could be expanded, left empty for now
-        'complementIdentification': '',  # Could be expanded, left empty for now
-        'complementAddress': '',  # Additional address info (e.g., Apt #)
-        'country': 'France',  # Static value
-        'postalCode': fake.postcode()  # French postal code
+        'User.addresses[0].type': random.choice(['work', 'home']),  # Randomly choose between 'work' or 'home'
+        'User.addresses[0].streetNumber': fake.building_number(),  # Building number
+        'User.addresses[0].complementStreetNumber': random.choice(['bis', 'ter', 'quater']) if random.random() > 0.8 else '',  # 20% chance of having a complement street number
+        'User.addresses[0].streetType': random.choice(['boulevard', 'avenue', 'rue', 'place', 'chemin']),  # Street type (avenue, boulevard, etc.)
+        'User.addresses[0].streetName': fake.street_name().split(' ', 1)[1],  # Street name
+        'User.addresses[0].complementLocation': 'Batiment 1',  # Additional location info (e.g., Batiment #)
+        'User.addresses[0].complementIdentification': '',  # Could be expanded, left empty for now
+        'User.addresses[0].complementAddress': 'BP 12345',  # Additional address info (e.g., BP #)
+        'User.addresses[0].postalCode': fake.postcode(),  # French postal code
+        'User.addresses[0].locality': fake.city(),  # City
+        'User.addresses[0].region': fake.region(),  # Region in France
+        'User.addresses[0].country': 'France'  # Static value
     }
     return address
 
@@ -37,7 +37,18 @@ def generate_identity(names=None, surnames=None, use_faker=False):
         
     username = f"{unidecode(name.lower()).replace(" ", "-")}.{unidecode(surname.lower()).replace(" ", "-")}{random.randint(1000, 9999)}"
     email = f"{username}@yopmail.com"
-    return {'User.userIds.userName': username, 'initialpassword': username, 'User.userIds.primaryEmail': email, 'User.userIds.verifiedPrimaryEmail': 'true', 'User.name.familyName': name, 'User.name.givenName': surname, 'User.active': 'true'}
+    address = generate_address()
+
+    return {
+        'User.userIds.userName': username, 
+        'initialpassword': username, 
+        'User.userIds.primaryEmail': email, 
+        'User.userIds.verifiedPrimaryEmail': 'true', 
+        'User.name.familyName': name, 
+        'User.name.givenName': surname, 
+        'User.active': 'true',
+        **address  # Unpack the address dictionary to include it in the identity
+        }
 
 def generate_identities(n, names_file=None, surnames_file=None, output_file='output/identities', output_format='both'):
     if names_file or surnames_file:
