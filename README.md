@@ -80,3 +80,7 @@ Smith
 ```
 
 The program will randomly combine these names and surnames to create identities.
+
+## License
+
+This project is licensed under the MIT License.
