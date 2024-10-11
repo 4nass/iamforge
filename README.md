@@ -43,16 +43,40 @@ python identity_generator.py <number_of_identities> [--names-file NAMES_FILE] [-
 
 ### Command-Line Arguments
 
-To generate 100 identities and save them as a CSV file:
+To generate 100 identities from a given names file and save them as both CSV and Excel (default):
 
 ```bash
-python identity_generator.py 100 --names-file names.txt --surnames-file surnames.txt --output-file output/identities.csv --output-format csv
+python identity_generator.py 100 --names-file names.txt --surnames-file surnames.txt --output-file output/identities --output-format both
+```
+
+If no --names-file argument is given, the tool will use the faker library to generate random names and surnames:
+
+```bash
+python identity_generator.py 100
 ```
 
 ### Arguments
 
 - number_of_identities: The number of identities to generate (required).
-- --names-file: Path to the file containing the list of names (default is names.txt).
-- --surnames-file: Path to the file containing the list of surnames (default is surnames.txt).
-- --output-file: Path to save the output file (default is output/identities.csv).
-- --output-format: Output format, either csv or excel (default is csv).
+- --names-file: Optional file containing the list of names and surnames (if not provided, random names will be generated using the faker library).
+- --surnames-file: Optional file containing the list of names and surnames (if not provided, random names will be generated using the faker library).
+- --output-file: Path to save the output file without extension (default is output/identities). The appropriate extension (.csv or .xlsx) will be added based on the --output-format.
+- --output-format: Output format, either csv, excel, or both (default is both).
+
+### Input File Format
+
+The input file (surnames.txt) should contain surnames, one per line, like this:
+
+```bash
+John
+Jane
+```
+
+The input file (names.txt) should contain names, one per line, like this:
+
+```bash
+Doe
+Smith
+```
+
+The program will randomly combine these names and surnames to create identities.

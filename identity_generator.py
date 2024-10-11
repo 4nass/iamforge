@@ -12,8 +12,8 @@ def load_names(file_path):
 
 def generate_identity(names=None, surnames=None, use_faker=False):
     if use_faker:
-        name = fake.first_name().lower()
-        surname = fake.last_name().lower()
+        name = fake.last_name().lower()
+        surname = fake.first_name().lower()
     else:
         name = random.choice(names).lower()
         surname = random.choice(surnames).lower()
@@ -22,7 +22,7 @@ def generate_identity(names=None, surnames=None, use_faker=False):
     email = f"{username}@yopmail.com"
     return {'User.userIds.userName': username, 'initialpassword': username, 'User.userIds.primaryEmail': email, 'User.userIds.verifiedPrimaryEmail': 'true', 'User.name.familyName': name, 'User.name.givenName': surname, 'User.active': 'true'}
 
-def generate_identities(n, names_file=None, surnames_file=None, output_file=None, output_format='both'):
+def generate_identities(n, names_file=None, surnames_file=None, output_file='output/identities', output_format='both'):
     if names_file or surnames_file:
         names = load_names(names_file)
         surnames = load_names(surnames_file) 
@@ -54,8 +54,8 @@ if __name__ == "__main__":
     parser.add_argument('number', type=int, help='Number of identities to generate')
     parser.add_argument('--names-file', type=str, help='Optional: File containing names')
     parser.add_argument('--surnames-file', type=str, help='Optional: File containing surnames')
-    parser.add_argument('--output-file', type=str, default='output/identities', help='Output file path')
-    parser.add_argument('--output-format', type=str, choices=['csv', 'excel', 'both'], default='both', help='Output format')
+    parser.add_argument('--output-file', type=str, default='output/identities', help='Output file path without extension')
+    parser.add_argument('--output-format', type=str, choices=['csv', 'excel', 'both'], default='both', help='Output format (csv, excel, or both)')
 
     args = parser.parse_args()  
 
