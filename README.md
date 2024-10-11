@@ -5,6 +5,7 @@ This project is a Python command-line tool that generates a specified number of 
 ## Features
 
 - Generates unique usernames based on name and surname combinations.
+- Optionally uses the `faker` library to generate random names if no input file is provided.
 - Outputs identities in both CSV and Excel formats.
 - Ensures there are no duplicate usernames and emails.
 - Command-line arguments allow flexible input and output options.
@@ -16,11 +17,19 @@ Before running the project, ensure you have the following installed:
 - Python 3.7+
 - `pandas` library (for CSV/Excel export)
 - `openpyxl` library (for Excel export)
+- `argparse` library (for parsing command-line arguments)
+- `faker` library (for generating random names if no input file is provided)
 
-You can install these libraries via `pip`:
+You can install these libraries manually via `pip`:
 
 ```bash
-pip install pandas openpyxl
+pip install pandas openpyxl argparse unidecode faker 
+```
+
+Or by using `requirements.txt` file:
+
+```bash
+pip install --prefix=/install -r ./requirements.txt
 ```
 
 ## Usage
@@ -29,7 +38,7 @@ pip install pandas openpyxl
 You can specify the number of identities to generate, the input file, and the output format (CSV or Excel) through command-line arguments.
 
 ```bash
-python identity_generator.py <number_of_identities> [--names-file NAMES_FILE] [--surnames-file NAMES_FILE] [--output-file OUTPUT_FILE] [--output-format {csv,excel}]
+python identity_generator.py <number_of_identities> [--names-file NAMES_FILE] [--surnames-file NAMES_FILE] [--output-file OUTPUT_FILE] [--output-format {csv,excel,both}]
 ```
 
 ### Command-Line Arguments
