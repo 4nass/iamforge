@@ -62,6 +62,7 @@ python identity_generator.py 100
 - --surnames-file: Optional file containing the list of names and surnames (if not provided, random names will be generated using the faker library).
 - --output-file: Path to save the output file without extension (default is output/identities). The appropriate extension (.csv or .xlsx) will be added based on the --output-format.
 - --output-format: Output format, either csv, excel, or both (default is both).
+- --workers: Allows users to specify the number of parallel workers (CPU cores) to use. Defaults to 4.
 
 ### Input File Format
 
