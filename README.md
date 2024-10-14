@@ -89,18 +89,18 @@ The generated output will include the following columns:
 User.userIds.userName,initialpassword,User.userIds.primaryEmail,User.userIds.verifiedPrimaryEmail,User.name.familyName,User.name.givenName,User.active,User.addresses[0].type,User.addresses[0].streetNumber,User.addresses[0].complementStreetNumber,User.addresses[0].streetType,User.addresses[0].streetName,User.addresses[0].complementLocation,User.addresses[0].complementIdentification,User.addresses[0].complementAddress,User.addresses[0].postalCode,User.addresses[0].locality,User.addresses[0].region,User.addresses[0].country
 ```
 
-Each generated identity now includes detailed address information, broken down into multiple columns:
+Each generated identity includes detailed address information, broken down into multiple columns:
 
 - **Type**: Either "work" or "home".
 - **StreetNumber**: The building or street number.
+- **ComplementStreetNumber**: Additional street number information like "bis" or "ter" (optional).
 - **StreetType**: Type of street (e.g., avenue, boulevard).
 - **StreetName**: The name of the street.
-- **Region**: The region in France (e.g., Île-de-France).
 - **Locality**: The city or town.
-- **ComplementStreetNumber**: Additional street number information like "bis" or "ter" (optional).
 - **ComplementLocation**: Additional location information (optional).
 - **ComplementIdentification**: Identification complements (optional).
 - **ComplementAddress**: Additional address details such as apartment or suite number.
+- **Region**: The region in France (e.g., Île-de-France).
 - **Country**: Always "France".
 - **PostalCode**: The postal code of the address.
 

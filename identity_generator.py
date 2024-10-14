@@ -29,8 +29,16 @@ def generate_address():
 
 def generate_identity(names=None, surnames=None, use_faker=False):
     if use_faker:
+        gender = random.choice(['M', 'F'])
+        if gender == 'M':
+            surname = fake.first_name_male()
+            middlename = fake.first_name_male() if random.random() > 0.6 else ''  # 40% chance of having a middlename
+            honorific = 'M'
+        else:
+            surname = fake.first_name_female()
+            middlename = fake.first_name_female() if random.random() > 0.6 else ''  # 40% chance of having a middlename
+            honorific = 'Mme'
         name = fake.last_name().lower()
-        surname = fake.first_name().lower()
     else:
         name = random.choice(names).lower()
         surname = random.choice(surnames).lower()
@@ -46,7 +54,12 @@ def generate_identity(names=None, surnames=None, use_faker=False):
         'User.userIds.verifiedPrimaryEmail': 'true', 
         'User.name.familyName': name, 
         'User.name.givenName': surname, 
+        'User.name.middleName': middlename,
+        'User.name.honorificPrefix': honorific,
+        'User.preferredLanguage': 'fr',
         'User.active': 'true',
+        'User.gender': gender,
+        'User.preferredCommunicationChannel': 'E',
         **address  # Unpack the address dictionary to include it in the identity
         }
 
