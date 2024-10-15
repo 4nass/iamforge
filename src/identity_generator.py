@@ -21,6 +21,9 @@ def load_names(file_path):
     except FileNotFoundError:
         logging.error(f"File not found: {file_path}")
         return []
+    except TypeError:
+        logging.error(f"Unexpected error: {file_path}")
+        return []
 
 def generate_address():
     """Generate a random address using Faker."""
@@ -103,10 +106,18 @@ def generate_identities_parallel(n, names_file=None, surnames_file=None, output_
     if names_file or surnames_file:
         names = load_names(names_file)
         surnames = load_names(surnames_file)
-        use_faker = False
+        if names == [] or surnames == []:
+            names, surnames = None, None
+            use_faker = True
+        else:
+            use_faker = False
     else:
         names, surnames = None, None
         use_faker = True
+
+    if workers <= 0:
+        logging.error(f"Workers must be greater than or equal to 1: {workers} invalid value")
+        raise ValueError
     
     # Divide the task into batchs for parallel processing
     batch_size = n // workers
@@ -130,7 +141,7 @@ def generate_identities_parallel(n, names_file=None, surnames_file=None, output_
                 logging.info(f"Batch processed, {len(identities)} identities generated so far.")
 
         df = pd.DataFrame(identities)
-
+        
         # Apply custom column mapping if provided
         if column_mapping:
             df = df.rename(columns=column_mapping)

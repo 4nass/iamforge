@@ -1,5 +1,5 @@
 import pytest
-from identity_generator import generate_identities_parallel
+from src.identity_generator import generate_identities_parallel
 import pandas as pd
 import os
 import json
@@ -15,11 +15,11 @@ def test_invalid_json_column_mapping(tmpdir):
     output_file = os.path.join(tmpdir, "identities_invalid")
     
     invalid_json = "{'username': 'User Name'}"  # Invalid JSON (single quotes)
-    with open(f"{tmpdir}/invalid_mapping.json", "w") as f:
-        f.write(invalid_json)
+    #with open(f"{tmpdir}/invalid_mapping.json", "w") as f:
+    #    f.write(invalid_json)
     
     with pytest.raises(json.JSONDecodeError):
-        generate_identities_parallel(10, output_file=output_file, column_mapping_file=f"{tmpdir}/invalid_mapping.json")
+        generate_identities_parallel(10, output_file=output_file, column_mapping=invalid_json)
 
 def test_empty_names_file(tmpdir):
     """Test behavior when an empty names file is provided."""

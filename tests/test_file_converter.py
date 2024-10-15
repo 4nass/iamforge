@@ -1,6 +1,6 @@
 import pytest
 import pandas as pd
-from file_converter import convert_csv_to_excel, convert_excel_to_csv
+from src.file_converter import convert_csv_to_excel, convert_excel_to_csv
 
 @pytest.fixture
 def test_csv_to_excel_conversion(tmpdir):
@@ -34,7 +34,7 @@ def test_excel_to_csv_conversion(tmpdir):
         'name': ['John Doe', 'Jane Doe'],
         'email': ['john@example.com', 'jane@example.com']
     })
-    df.to_excel(excel_file, index=False)
+    df.to_excel(excel_file, index=False, sheet_name='Users')
 
     # Convert to CSV
     convert_excel_to_csv(excel_file, csv_file)
@@ -79,7 +79,7 @@ def test_excel_to_csv_with_columns_to_keep(tmpdir):
         'email': ['john@example.com', 'jane@example.com'],
         'age': [30, 25]
     })
-    df.to_excel(excel_file, index=False)
+    df.to_excel(excel_file, index=False, sheet_name='Users')
 
     # Convert to CSV, keeping only 'name' and 'email' columns
     columns_to_keep = ['name', 'email']

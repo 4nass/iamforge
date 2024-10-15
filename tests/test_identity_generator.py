@@ -1,5 +1,5 @@
 import pytest
-from identity_generator import generate_identity, generate_address, generate_identities_parallel
+from src.identity_generator import generate_identity, generate_address, generate_identities_parallel
 import pandas as pd
 import os
 
@@ -47,6 +47,7 @@ def test_generate_large_batch(tmpdir):
     # Check that files were generated
     assert os.path.exists(f'{output_file}.csv')
     df = pd.read_csv(f'{output_file}.csv')
+    print(len(df))
     assert len(df) == 10000
 
 def test_column_mapping(tmpdir):

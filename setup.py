@@ -25,7 +25,7 @@ PROJECT_URLS = {
     "Bug Reports": f"{GITHUB_URL}/issues"
 }
 
-REQUIRED_PYTHON_VER='>=3.7'
+REQUIRED_PYTHON_VER=(3, 8, 0)
 
 PACKAGES = find_packages(exclude=["tests", "tests.*"])
 
@@ -60,7 +60,5 @@ setup(
     python_requires=f">={MIN_PY_VERSION}",
     long_description=open("README.md").read(),  # Load README as long description
     long_description_content_type="text/markdown",
-    test_suite="tests",
-    classifiers={CLASSIFIERS},
     entry_points={"console_scripts": ["identity-generator=identity_generator.main:main"]},
 )
