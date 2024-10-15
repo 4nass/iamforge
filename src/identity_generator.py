@@ -135,12 +135,18 @@ def generate_identities_parallel(n, names_file=None, surnames_file=None, output_
         if column_mapping:
             df = df.rename(columns=column_mapping)
 
-        # Write to CSV and/or Excel
-        if output_format in ['csv', 'both']:
+        # Write to CSV and/or Excel and/or JSON and/or Parquet
+        if output_format in ['csv', 'all']:
             df.to_csv(f'{output_file}.csv', index=False)
 
-        if output_format in ['excel', 'both']:
+        if output_format in ['excel', 'all']:
             df.to_excel(f'{output_file}.xlsx', index=False, sheet_name='Users')
+
+        if output_format in ['json', 'all']:
+            df.to_json(f'{output_file}.json', index=False)
+
+        if output_format in ['parquet', 'all']:
+            df.to_parquet(f'{output_file}.parquet', index=False)
 
     end_time = time.time()
     logging.info(f"Total time taken: {end_time - start_time} seconds")
