@@ -1,6 +1,5 @@
 import pandas as pd
 
-
 def convert_csv_to_excel(input_file, output_file, columns_to_keep=None, column_mapping=None):
     df = pd.read_csv(input_file, dtype=str)
 

@@ -1,8 +1,8 @@
 import pytest
 import pandas as pd
 from file_converter import convert_csv_to_excel, convert_excel_to_csv
-import os
 
+@pytest.fixture
 def test_csv_to_excel_conversion(tmpdir):
     """Test converting a CSV file to Excel format."""
     csv_file = tmpdir.join("test.csv")
