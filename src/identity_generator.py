@@ -98,66 +98,62 @@ def generate_identities_batch(n, names, surnames, use_faker, unique_usernames):
     return batch
 
 # Uses ProcessPoolExecutor to run the identity generation in parallel across multiple processes
-def generate_identities_parallel(n, names_file=None, surnames_file=None, output_file='output/identities', output_format='both', column_mapping=None, workers=4):
+def generate_identities_parallel(n, names_file=None, surnames_file=None, output_file='output/identities', output_format='all', column_mapping=None, workers=4):
     """Generate identities in parallel using multiple processes."""
-    start_time = time.time()
-
-    # Load names if provided
-    if names_file or surnames_file:
-        names = load_names(names_file)
-        surnames = load_names(surnames_file)
-        if names == [] or surnames == []:
+    if n > 0 and workers > 0:
+        start_time = time.time()
+        # Load names if provided
+        if names_file or surnames_file:
+            names = load_names(names_file)
+            surnames = load_names(surnames_file)
+            if names == [] or surnames == []:
+                names, surnames = None, None
+                use_faker = True
+            else:
+                use_faker = False
+        else:
             names, surnames = None, None
             use_faker = True
-        else:
-            use_faker = False
-    else:
-        names, surnames = None, None
-        use_faker = True
+        
+        # Divide the task into batchs for parallel processing
+        batch_size = n // workers
+        remaining = n % workers
+        logging.info(f"Starting generation of {n} identities with {workers} workers.")
 
-    if workers <= 0:
+        # Use a Manager to share the unique_usernames between processes
+        with Manager() as manager:
+            unique_usernames = manager.dict()  # Shared dict for unique usernames
+            identities = []
+
+            # Use ProcessPoolExecutor for parallel execution
+            with ProcessPoolExecutor(max_workers=workers) as executor:
+                futures = [
+                    executor.submit(generate_identities_batch, batch_size + (1 if i < remaining else 0), names, surnames, use_faker, unique_usernames)
+                    for i in range(workers)
+                ]
+                for future in as_completed(futures):
+                    identities.extend(future.result())
+                    logging.info(f"Batch processed, {len(identities)} identities generated so far.")
+            df = pd.DataFrame(identities)
+            
+            # Apply custom column mapping if provided
+            if column_mapping:
+                df = df.rename(columns=column_mapping)
+
+            # Write to CSV and/or Excel and/or JSON and/or Parquet
+            if output_format in ['csv', 'all']:
+                df.to_csv(f'{output_file}.csv', index=False)
+            if output_format in ['excel', 'all']:
+                df.to_excel(f'{output_file}.xlsx', index=False, sheet_name='Users')
+            if output_format in ['json', 'all']:
+                df.to_json(f'{output_file}.json', index=False, orient="records")
+            if output_format in ['parquet', 'all']:
+                df.to_parquet(f'{output_file}.parquet', index=False)
+
+        end_time = time.time()
+        logging.info(f"Total time taken: {end_time - start_time} seconds")
+    elif n <= 0:
+        logging.error(f"Number of identities must be greater than or equal to 1: {n} invalid value")
+    elif workers <= 0:
         logging.error(f"Workers must be greater than or equal to 1: {workers} invalid value")
         raise ValueError
-    
-    # Divide the task into batchs for parallel processing
-    batch_size = n // workers
-    remaining = n % workers
-
-    logging.info(f"Starting generation of {n} identities with {workers} workers.")
-
-    # Use a Manager to share the unique_usernames between processes
-    with Manager() as manager:
-        unique_usernames = manager.dict()  # Shared dict for unique usernames
-        identities = []
-
-        # Use ProcessPoolExecutor for parallel execution
-        with ProcessPoolExecutor(max_workers=workers) as executor:
-            futures = [
-                executor.submit(generate_identities_batch, batch_size + (1 if i < remaining else 0), names, surnames, use_faker, unique_usernames)
-                for i in range(workers)
-            ]
-            for future in as_completed(futures):
-                identities.extend(future.result())
-                logging.info(f"Batch processed, {len(identities)} identities generated so far.")
-
-        df = pd.DataFrame(identities)
-        
-        # Apply custom column mapping if provided
-        if column_mapping:
-            df = df.rename(columns=column_mapping)
-
-        # Write to CSV and/or Excel and/or JSON and/or Parquet
-        if output_format in ['csv', 'all']:
-            df.to_csv(f'{output_file}.csv', index=False)
-
-        if output_format in ['excel', 'all']:
-            df.to_excel(f'{output_file}.xlsx', index=False, sheet_name='Users')
-
-        if output_format in ['json', 'all']:
-            df.to_json(f'{output_file}.json', index=False)
-
-        if output_format in ['parquet', 'all']:
-            df.to_parquet(f'{output_file}.parquet', index=False)
-
-    end_time = time.time()
-    logging.info(f"Total time taken: {end_time - start_time} seconds")

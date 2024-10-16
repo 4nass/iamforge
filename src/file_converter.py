@@ -100,7 +100,7 @@ def convert_json_to_excel(input_file, output_file, columns_to_keep=None, column_
     df.to_excel(output_file, index=False, sheet_name='Users')
 
 def convert_parquet_to_csv(input_file, output_file, columns_to_keep=None, column_mapping=None):
-    df = pd.read_json(input_file, dtype=str)
+    df = pd.read_parquet(input_file)
 
     if columns_to_keep:
         df = df[columns_to_keep]
@@ -111,7 +111,7 @@ def convert_parquet_to_csv(input_file, output_file, columns_to_keep=None, column
     df.to_csv(output_file, index=False)
 
 def convert_parquet_to_json(input_file, output_file, columns_to_keep=None, column_mapping=None):
-    df = pd.read_parquet(input_file, dtype=str)
+    df = pd.read_parquet(input_file)
 
     if columns_to_keep:
         df = df[columns_to_keep]
@@ -122,7 +122,7 @@ def convert_parquet_to_json(input_file, output_file, columns_to_keep=None, colum
     df.to_json(output_file, index=False)
 
 def convert_parquet_to_excel(input_file, output_file, columns_to_keep=None, column_mapping=None):
-    df = pd.read_parquet(input_file, dtype=str)
+    df = pd.read_parquet(input_file)
 
     if columns_to_keep:
         df = df[columns_to_keep]

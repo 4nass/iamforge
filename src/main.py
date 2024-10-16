@@ -1,6 +1,7 @@
 import argparse
 import json
 import logging
+import os
 from identity_generator import generate_identities_parallel
 from file_converter import *
 
