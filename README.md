@@ -14,16 +14,18 @@ This project is a Python command-line tool that generates a specified number of 
 
 Before running the project, ensure you have the following installed:
 
-- Python 3.7+
-- `pandas` library (for CSV/Excel export)
-- `openpyxl` library (for Excel export)
+- Python 3.8+
+- `pandas` library (for CSV/Excel/JSON/Parquet export)
 - `argparse` library (for parsing command-line arguments)
 - `faker` library (for generating random names if no input file is provided)
+- `pytest` library (for testing)
+- `unidecode` library (for reducing Unicode to an ASCII representation)
+- `aiofiles` library (for asynchronous file operations)
 
 You can install these libraries manually via `pip`:
 
 ```bash
-pip install pandas openpyxl argparse unidecode faker 
+pip install pandas argparse unidecode faker aiofiles
 ```
 
 Or by using `requirements.txt` file:
@@ -35,21 +37,21 @@ pip install --prefix=/install -r ./requirements.txt
 ## Usage
 ### Command-Line Arguments
 
-You can specify the number of identities to generate, the input file, and the output format (CSV or Excel) through command-line arguments.
+You can specify the number of identities to generate, the input file, and the output format and more through command-line arguments.
 
 ```bash
-python identity_generator.py <number_of_identities> [--names-file NAMES_FILE] [--surnames-file NAMES_FILE] [--output-file OUTPUT_FILE] [--output-format {csv,excel,both}]
+python src/main.py <number_of_identities> [--names-file NAMES_FILE] [--surnames-file NAMES_FILE] [--output-file OUTPUT_FILE] [--output-format {csv,excel,json,parquet,all}]
 ```
 
 ### Command-Line Arguments
 
-To generate 100 identities from a given names file and save them as both CSV and Excel (default):
+To generate 100 identities from a given names file and save them as CSV, JSON, Parquet and Excel (all is default):
 
 ```bash
-python identity_generator.py 100 --names-file names.txt --surnames-file surnames.txt --output-file output/identities --output-format both
+python src/main.py 100 --names-file names.txt --surnames-file surnames.txt --output-file output/identities --output-format all
 ```
 
-If no --names-file argument is given, the tool will use the faker library to generate random names and surnames:
+If no --names-file/--surnames-file argument is given, the tool will use the faker library to generate random names and surnames:
 
 ```bash
 python identity_generator.py 100
@@ -87,7 +89,30 @@ The program will randomly combine these names and surnames to create identities.
 The generated output will include the following columns:
 
 ```bash
-User.userIds.userName,initialpassword,User.userIds.primaryEmail,User.userIds.verifiedPrimaryEmail,User.name.familyName,User.name.givenName,User.active,User.addresses[0].type,User.addresses[0].streetNumber,User.addresses[0].complementStreetNumber,User.addresses[0].streetType,User.addresses[0].streetName,User.addresses[0].complementLocation,User.addresses[0].complementIdentification,User.addresses[0].complementAddress,User.addresses[0].postalCode,User.addresses[0].locality,User.addresses[0].region,User.addresses[0].country
+username
+password
+email
+isEmailVerified
+name
+surname
+middlename
+honorific
+language
+isActive
+gender
+communicationChannel
+addressType
+streetNumber
+complementStreetNumber
+streetType
+streetName
+complementLocation
+complementIdentification
+complementAddress
+postalCode
+locality
+region
+country
 ```
 
 Each generated identity includes detailed address information, broken down into multiple columns:
@@ -107,4 +132,4 @@ Each generated identity includes detailed address information, broken down into 
 
 ## License
 
-This project is licensed under the MIT License.
+This project is licensed under the Apache License, Version 2.0.

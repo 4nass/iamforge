@@ -5,8 +5,8 @@ from datetime import datetime as dt
 from setuptools import find_packages, setup
 
 PROJECT_NAME = "Identity Forge"
-PROJECT_VERSION = "0.1"
-PROJECT_PACKAGE_NAME = "identityforge"
+PROJECT_VERSION = "0.0.1"
+PROJECT_PACKAGE_NAME = "identity-forge"
 PROJECT_LICENSE = "Apache License 2.0"
 PROJECT_AUTHOR = "4nass"
 AUTHOR_EMAIL = "contact@anass.ch"
