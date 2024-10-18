@@ -7,6 +7,8 @@ from concurrent.futures import ProcessPoolExecutor, as_completed
 from faker import Faker
 import logging
 
+from address_factory import AddressFactory
+
 # Initialize logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(message)s')
 
@@ -25,24 +27,10 @@ def load_names(file_path):
         logging.error(f"Unexpected error: {file_path}")
         return []
 
-def generate_address():
+def generate_address(locale="fr_FR"):
     """Generate a random address using Faker."""
-    fake = Faker(['fr_FR'])
-    address = {
-        'addressType': random.choice(['work', 'home']),
-        'streetNumber': fake.building_number(),
-        'complementStreetNumber': random.choice(['bis', 'ter', 'quater']) if random.random() > 0.8 else '',
-        'streetType': random.choice(['boulevard', 'avenue', 'rue', 'place', 'chemin']),
-        'streetName': fake.street_name().split(' ', 1)[1],
-        'complementLocation': 'Batiment 1',
-        'complementIdentification': '',
-        'complementAddress': 'BP 12345',
-        'postalCode': fake.postcode(),
-        'locality': fake.city(),
-        'region': fake.region(),
-        'country': 'France'
-    }
-    return address
+    address = AddressFactory.create_address(locale)
+    return address.generate()
 
 def generate_identity(names=None, surnames=None, use_faker=False, unique_usernames=None):
     """Generate a single identity and ensure the username is unique."""
