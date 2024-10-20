@@ -1,4 +1,4 @@
-from address_builder import AddressBuilder
+from core.address_builder import AddressBuilder
 
 class IdentityBuilder(dict):
     def __init__(self):
@@ -14,7 +14,23 @@ class IdentityBuilder(dict):
 
     def add_middlename(self, middlename):
         self['middlename'] = middlename
-        return self    
+        return self
+    
+    def add_honorific(self, honorific):
+        self['honorific'] = honorific
+        return self
+    
+    def add_gender(self, gender):
+        self['gender'] = gender
+        return self
+    
+    def add_birthday(self, birthday):
+        self['birthday'] = birthday
+        return self
+    
+    def add_phone_number(self, phoneNumber):
+        self['phoneNumber'] = phoneNumber
+        return self
 
     def add_email(self, email):
         self['email'] = email
@@ -40,14 +56,6 @@ class IdentityBuilder(dict):
         self['language'] = language
         return self
     
-    def add_honorific(self, honorific):
-        self['honorific'] = honorific
-        return self
-    
-    def add_gender(self, gender):
-        self['gender'] = gender
-        return self
-    
     def add_communication_channel(self, communicationChannel):
         self['communicationChannel'] = communicationChannel
         return self
@@ -56,9 +64,9 @@ class IdentityBuilder(dict):
         self['company'] = company
         return self
 
-    def add_address(self, addressType, streetNumber, complementStreetNumber, streetType, streetName, complementLocation, complementIdentification, complementAddress, postalCode, locality, region, country):
+    def add_address(self, address):
         builder = AddressBuilder()
-        self['address'] = (builder.add_type(addressType).add_street_number(streetNumber).add_complement_street_number(complementStreetNumber).add_street_type(streetType).add_street_name(streetName).add_complement_location(complementLocation).add_complement_identification(complementIdentification).add_complement_address(complementAddress).add_postal_code(postalCode).add_locality(locality).add_region(region).add_country(country).build())
+        self['address'] = address
         return self
 
     def build(self):

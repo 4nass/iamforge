@@ -1,9 +1,8 @@
 import random
 from faker import Faker
 from unidecode import unidecode
-from address_factory import AddressFactory
-from identity_builder import IdentityBuilder
-from identity_generator import generate_identity
+from core.address_factory import AddressFactory
+from core.identity_builder import IdentityBuilder
 
 class IdentityFactory:
     @staticmethod

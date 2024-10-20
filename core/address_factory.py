@@ -1,7 +1,7 @@
 
 import random
 from faker import Faker
-from address_builder import AddressBuilder
+from core.address_builder import AddressBuilder
 
 class AddressFactory:
     @staticmethod
