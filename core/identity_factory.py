@@ -23,7 +23,7 @@ class IdentityFactory:
         elif locale == 'en_US':
             return AmericanIdentity()
         else:
-            return DefaultIdentity()
+            raise ValueError(f"Unsupported locale : {locale}")
 
 class FrenchIdentity:
     def generate(self, unique_usernames=None):
@@ -99,11 +99,6 @@ class BritishIdentity:
         pass
 
 class AmericanIdentity:
-    def generate(self):
-        # Generate identity data
-        pass
-
-class DefaultIdentity:
     def generate(self):
         # Generate identity data
         pass
