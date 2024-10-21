@@ -1,7 +1,7 @@
 
 import random
 from faker import Faker
-from core.address_builder import AddressBuilder
+from core.address_builder import AddressBuilder, AddressType
 
 class AddressFactory:
     @staticmethod
@@ -26,10 +26,9 @@ class AddressFactory:
 
 class FrenchAddress:
     def generate(self):
-        # Generate French Address data
         builder = AddressBuilder()
         fake = Faker(['fr_FR'])
-        address = (builder.add_type(random.choice(['work', 'home']))
+        address = (builder.add_type(random.choice(list(AddressType)))
                    .add_street_number(fake.building_number())
                    .add_complement_street_number(random.choice(['bis', 'ter', 'quater']) if random.random() > 0.8 else '')
                    .add_street_type(random.choice(['boulevard', 'avenue', 'rue', 'place', 'chemin']))

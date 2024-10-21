@@ -1,9 +1,16 @@
+from enum import Enum
+
+class AddressType(Enum):
+    HOME = 'home'
+    WORK = 'work'
+    OTHER = 'other' 
+
 class AddressBuilder(dict):
     def __init__(self):
          super().__init__()
 
-    def add_type(self, type='home'):
-        self['type'] = type
+    def add_type(self, type: AddressType):
+        self['type'] = type.value
         return self
 
     def add_street_number(self, streetNumber):
