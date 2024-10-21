@@ -22,7 +22,7 @@ class AddressFactory:
         elif locale == 'en_US':
             return AmericanAddress()
         else:
-            return DefaultAddress()
+            raise ValueError(f"Unsupported locale : {locale}")
 
 class FrenchAddress:
     def generate(self):
