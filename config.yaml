@@ -1,0 +1,15 @@
+iam_connections:
+  keycloak:
+    admin_url: "https://keycloak.example.com"
+    username: "admin"
+    password: "admin_password"
+    realm: "master"
+    client_id: "admin-cli"
+    client_secret: "my_secret"
+  okta:
+    domain: "https://dev-123456.okta.com"
+    api_token: "your_api_token"
+  aws_cognito:
+    user_pool_id: "us-east-1_ABCDEF"
+    client_id: "client_id"
+    client_secret: "secret"

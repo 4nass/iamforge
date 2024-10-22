@@ -6,3 +6,7 @@ faker==30.3.0
 pytest==8.3.3
 fastparquet
 pyarrow
+python-keycloak
+okta
+pycognito
+boto3
