@@ -3,6 +3,8 @@ from pycognito import Cognito
 
 class CognitoAdapter(IAMAdapter):
     
+    
+    
     u = Cognito('your-user-pool-id','your-client-id',
                 client_secret='optional-client-secret',
                 username='optional-username',

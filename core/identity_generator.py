@@ -7,6 +7,8 @@ import time
 import ast
 import logging
 
+from utils.file_writer import AsyncFileWriter
+
 # Initialize logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(message)s')
 
@@ -51,7 +53,7 @@ def generate_identities_batch(n, unique_usernames):
     return batch
 
 # Uses ProcessPoolExecutor to run the identity generation in parallel across multiple processes
-def generate_identities_parallel(n, output_file=None, output_format=None, column_mapping=None, workers=4):
+async def generate_identities_parallel(n, output_file=None, output_format=None, column_mapping=None, workers=4):
     """Generate identities in parallel using multiple processes."""
     if n > 0 and workers > 0:
         start_time = time.time()
@@ -92,14 +94,10 @@ def generate_identities_parallel(n, output_file=None, output_format=None, column
                 output_file = 'output/output'
 
             # Write to CSV and/or Excel and/or JSON and/or Parquet
-            if output_format in ['json', 'all']:
-                df.to_json(f'{output_file}.json', index=False, orient="records")
-            if output_format in ['csv', 'all']:
-                df.to_csv(f'{output_file}.csv', index=False)
-            if output_format in ['excel', 'all']:
-                df.to_excel(f'{output_file}.xlsx', index=False, sheet_name='Users')
-            if output_format in ['parquet', 'all']:
-                df.to_parquet(f'{output_file}.parquet', index=False)
+            
+            writer = AsyncFileWriter(df, "output_file")
+            await writer.write_files(output_file)
+            
 
         end_time = time.time()
         logging.info(f"Total time taken: {end_time - start_time} seconds")

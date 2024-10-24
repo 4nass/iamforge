@@ -1,5 +1,6 @@
 # cli/generate_identities.py
 from core.identity_generator import generate_identities_parallel    
+import asyncio
 import argparse
 import json
 import logging
@@ -33,7 +34,7 @@ def main(args=None):
         logging.error(f"File not found: {e}")
         exit(1)
 
-    generate_identities_parallel(args.number, args.output_file, args.output_format, column_mapping, args.workers)
+    asyncio.run(generate_identities_parallel(args.number, args.output_file, args.output_format, column_mapping, args.workers))
 
 if __name__ == "__main__":
     main()
