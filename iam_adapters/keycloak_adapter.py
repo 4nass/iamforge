@@ -1,5 +1,5 @@
 from iam_adapters.iam_adapter import IAMAdapter
-from keycloak import KeycloakAdmin, KeycloakOpenIDConnection
+from mantelo import KeycloakAdmin
 
 class KeycloakAdapter(IAMAdapter):
     def format_identity(self, identity):
@@ -19,9 +19,9 @@ class KeycloakAdapter(IAMAdapter):
         return keycloak_identity
     
     def connect(self):
-        from keycloak import KeycloakAdmin
+        from mantelo import KeycloakAdmin
         keycloak_config = self.config["keycloak"]
-        self.admin = KeycloakAdmin(
+        self.admin = KeycloakAdmin.from_username_password(
             server_url=keycloak_config['admin_url'],
             username=keycloak_config['username'],
             password=keycloak_config['password'],
